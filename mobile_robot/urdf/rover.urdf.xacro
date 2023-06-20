@@ -1,0 +1,555 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://wwww.ros.org/wiki/xacro" name="rover">
+
+<link name="base_footprint"/>
+    
+
+<xacro:property name="constant" value="1/12"/>
+<xacro:property name="mass" value="10.0"/>
+<xacro:property name="width" value="0.7"/>
+<xacro:property name="height" value="0.1"/>
+<xacro:property name="length" value="0.6"/>
+
+<xacro:property name="radius" value="0.15"/>
+
+<xacro:property name="camera_link" value="0.05" /> <!-- Size of square 'camera' box -->
+<xacro:property name="imu_link" value="0.05" /> <!-- Size of square 'imus' box -->
+<xacro:property name="kinect_link" value="0.08" />
+<link name="base_link">
+    <inertial>
+        <mass value="${mass}"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <inertia ixx="0.054" ixy="0.0" 
+        ixz="0.0" iyy="0.041" 
+        iyz="0.0" izz="0.09"/>
+    </inertial>
+    <visual name="">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>   
+        <geometry>
+            <box size="${length} ${width} ${height}" />
+        </geometry>
+        <material name="black">
+                 <color rgba="0.0 0.0 0.0 1.0" />
+        </material>
+        
+    </visual>
+    <collision>
+    <material>
+  <ambient>0 0 0 1</ambient>
+  <diffuse>0 0 0 1</diffuse>
+  <specular>0.1 0.1 0.1 1</specular>
+  <emissive>0 0 0 1</emissive>
+</material>
+
+        <geometry>
+            <box size="${length} ${width} ${height}" />
+        </geometry>
+    </collision>
+</link>
+
+<joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0.0135" rpy="0 0 0"/>
+    <axis xyz="0 0 0"/>
+</joint>
+
+<!-- Rear right wheel-->
+
+<link name="wheel_rear_right_link">
+    <visual name="">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <cylinder radius="${radius}" length="0.05"/>
+        </geometry>
+        <material name="purple">
+            <color rgba="0.5 0.0 0.5 1.0" /> 
+        </material>
+    </visual>
+    <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <cylinder radius="${radius}" length="0.05"/>
+        </geometry>
+    </collision>
+    <inertial>
+        <mass value="0.5"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+</link>
+
+<joint name="wheel_rear_right_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_rear_right_link"/>
+    <axis xyz="0 0 1"/>
+    <origin xyz="0.2 0.40 0" rpy="1.57 0 0"/>
+</joint>
+
+<!-- Rear left wheel-->
+
+<link name="wheel_rear_left_link">
+    <visual name="">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <cylinder radius="${radius}" length="0.05"/>
+        </geometry>
+        <material name="purple">
+            <color rgba="0.5 0.0 0.5 1.0" /> 
+        </material>
+    </visual>
+    <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <cylinder radius="${radius}" length="0.05"/>
+        </geometry>
+    </collision>
+    <inertial>
+        <mass value="0.5"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+</link>
+
+<joint name="wheel_rear_left_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_rear_left_link"/>
+    <axis xyz="0 0 1"/>
+    <origin xyz="0.2 -0.40 0" rpy="1.57 0 0"/>
+</joint>
+
+
+<!-- Front right wheel-->
+
+<link name="wheel_front_right_link">
+    <visual name="">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <cylinder radius="${radius}" length="0.05"/>
+        </geometry>
+        <material name="purple">
+            <color rgba="0.5 0.0 0.5 1.0" /> 
+        </material>
+    </visual>
+    <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <cylinder radius="${radius}" length="0.05"/>
+        </geometry>
+    </collision>
+    <inertial>
+        <mass value="0.5"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+</link>
+
+<joint name="wheel_front_right_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_front_right_link"/>
+    <axis xyz="0 0 1"/>
+    <origin xyz="-0.2 0.40 0" rpy="1.57 0 0"/>
+</joint>
+
+<!-- Front left wheel-->
+
+<link name="wheel_front_left_link">
+    <visual name="">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <cylinder radius="${radius}" length="0.05"/>
+        </geometry>
+        <material name="purple">
+            <color rgba="0.5 0.0 0.5 1.0" /> 
+        </material>
+    </visual>
+    <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <cylinder radius="${radius}" length="0.05"/>
+        </geometry>
+    </collision>
+    <inertial>
+        <mass value="0.5"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+</link>
+
+<joint name="wheel_front_left_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_front_left_link"/>
+    <axis xyz="0 0 1"/>
+    <origin xyz="-0.2 -0.40 0" rpy="1.57 0 0"/>
+
+</joint>
+
+
+  <!-- Camera -->
+<link name="camera_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="${camera_link} ${camera_link} ${camera_link}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="${camera_link} ${camera_link} ${camera_link}"/>
+      </geometry>
+      <material name="purple"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+</link>
+<joint name="camera_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="-0.285 0 0.055" rpy="0 0.0 3.14"/>
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+</joint>
+
+<!--Kinect-->
+
+<link name="kinect_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="${kinect_link} ${kinect_link} ${kinect_link}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="${kinect_link} ${kinect_link} ${kinect_link}"/>
+      </geometry>
+      <material name="neon">
+      <color rgba="0.0 1.0 1.0 1.0" />             
+      </material>
+      
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+</link>
+
+
+<joint name="kinect_joint" type="fixed">
+    <axis xyz="0 0 0.3" />
+    <origin xyz="0.0 0.0 0.3" rpy="0 0 3.14"/>
+    <parent link="base_link"/>
+    <child link="kinect_link"/>
+</joint>
+
+<joint name="kinect_optical_joint" type="fixed"> 
+    <axis xyz="0 0 0.3" />
+    <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+    <parent link="kinect_link"/>
+    <child link="kinect_link_optical"/>
+</joint>
+
+<link name="kinect_link_optical">
+</link>
+
+<gazebo reference="kinect_link">
+  <sensor name="kinect_link_kinect" type="depth">
+    <update_rate>20</update_rate>
+    <camera>
+      <horizontal_fov>2.5</horizontal_fov>
+      <image>
+        <width>640</width>
+        <height>480</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.5</near>
+        <far>100</far>
+      </clip>
+    </camera>
+    <plugin name="kinect_link_controller" filename="libgazebo_ros_openni_kinect.so">
+      <baseline>0.2</baseline>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>1.0</updateRate>
+      <cameraName>kinect</cameraName>
+      <imageTopicName>/kinect/color/image_raw</imageTopicName>
+      <cameraInfoTopicName>/kinect/color/kinect_info</cameraInfoTopicName>
+      <depthImageTopicName>/kinect/depth/image_raw</depthImageTopicName>
+      <depthImageInfoTopicName>/kinect/depth/kinect_info</depthImageInfoTopicName>
+      <pointCloudTopicName>/kinect/depth/points</pointCloudTopicName>
+      <frameName>kinect_link_optical</frameName>
+      <pointCloudCutoff>0.5</pointCloudCutoff>
+      <pointCloudCutoffMax>100.0</pointCloudCutoffMax>
+      <distortionK1>0.00000001</distortionK1>
+      <distortionK2>0.00000001</distortionK2>
+      <distortionK3>0.00000001</distortionK3>
+      <distortionT1>0.00000001</distortionT1>
+      <distortionT2>0.00000001</distortionT2>
+      <CxPrime>0</CxPrime>
+      <Cx>0</Cx>
+      <Cy>0</Cy>
+      <focalLength>0</focalLength>
+      <hackBaseline>0</hackBaseline>
+    </plugin>
+  </sensor>
+</gazebo>
+
+  <!-- IMU -->
+<link name="imu_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="${imu_link} ${imu_link} ${imu_link}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="${imu_link} ${imu_link} ${imu_link}"/>
+      </geometry>
+      <material name="black">
+            <color rgba="0.0 0.0 0.0 1.0" />
+
+        </material>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+</link>
+<joint name="imu_joint" type="fixed">
+    <axis xyz="0 0 0" />
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 1.57"/>
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+</joint>
+
+<!--hokuyu link and joint-->
+<link name="hokuyu_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+      <cylinder length="0.3" radius="0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+      <cylinder length="0.1" radius="0.1"/>
+      </geometry>
+      <material name="white">
+            <color rgba="1.0 1.0 1.0 1.0" />
+
+
+        </material>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+</link>
+<joint name="hokuyu_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0.0 0.0 0.2" rpy="0 0 3.14"/>
+    <parent link="base_link"/>
+    <child link="hokuyu_link"/>
+</joint>
+
+  <!-- camera -->
+  <gazebo reference="camera_link">
+    <sensor type="camera" name="camera1">
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>800</width>
+          <height>800</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise is sampled independently per pixel on each frame.
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1]. -->
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>30.0</updateRate>
+        <cameraName>mobile_robot/camera1</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_link</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+<gazebo>
+  <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
+    <updateRate>100.0</updateRate>
+    <robotNamespace>/</robotNamespace>
+    <leftFrontJoint>wheel_front_left_joint</leftFrontJoint>
+    <rightFrontJoint>wheel_front_right_joint</rightFrontJoint>
+    <leftRearJoint>wheel_rear_left_joint</leftRearJoint>
+    <rightRearJoint>wheel_rear_right_joint</rightRearJoint>
+    <wheelSeparation>0.7</wheelSeparation>
+    <wheelDiameter>0.30</wheelDiameter>
+    <robotBaseFrame>base_link</robotBaseFrame>
+    <torque>5</torque>
+    <topicName>/cmd_vel</topicName>
+    <broadcastTF>false</broadcastTF>
+  </plugin>
+</gazebo>
+
+<!--<gazebo reference="imu_link">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu</topicName>
+        <bodyName>imu_link</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_link</frameName>
+        <initialOrientationAsReference>false</initialOrientationAsReference>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo> -->
+<gazebo>
+    <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+      <alwaysOn>true</alwaysOn>
+      <bodyName>imu_link</bodyName>
+      <topicName>imu</topicName>
+      <serviceName>imu_service</serviceName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <frameName>imu_link</frameName>
+      <updateRate>50.0</updateRate>
+    </plugin>
+  </gazebo>
+
+<!--Hokuyo lidar plugin-->
+
+<gazebo reference="hokuyu_link">
+    <sensor type="ray" name="head_hokuyo_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>270</samples>
+            <resolution>1</resolution>
+            <min_angle>-2.35</min_angle>
+            <max_angle>2.35</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.20</min>
+          <max>11</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise parameters based on published spec for Hokuyo laser
+               achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+               stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+               reading. -->
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>scan</topicName>
+        <frameName>LaserScan</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+
+  <!--GPS-->
+
+   <joint name="gps_joint" type="fixed">
+    <parent link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <child link="gps_link"/>
+  </joint>
+
+  <link name="gps_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.02 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.02 0.02"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+    </inertial>
+  </link> 
+
+<gazebo> 
+    <plugin name="gazebo_ros_gps" filename="libhector_gazebo_ros_gps.so">
+      <updateRate>10.0</updateRate>
+      <robotNamespace>/</robotNamespace>
+      <bodyName>gps_link</bodyName>
+      <frameId>gps_link</frameId>
+      <topicName>gps/fix</topicName>
+      <velocityTopicName>gps/fix_velocity</velocityTopicName>
+      <referenceLatitude>40.0</referenceLatitude>
+      <referenceLongitude>40.0</referenceLongitude>
+      <referenceHeading>90</referenceHeading>
+      <referenceAltitude>10</referenceAltitude>
+      <offset>0 0 0</offset>
+      <drift>0.00 0.00 0.00</drift>
+      <gaussianNoise>0.0 0.0 0.0</gaussianNoise>
+      <velocityDrift>0.00 0.00 0.00</velocityDrift>
+      <velocityGaussianNoise>0.05 0.05 0.05</velocityGaussianNoise>
+    </plugin>
+  </gazebo> 
+</robot>

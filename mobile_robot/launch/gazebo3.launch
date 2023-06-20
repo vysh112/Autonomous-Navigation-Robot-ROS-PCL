@@ -1,0 +1,46 @@
+<launch>
+
+    <arg name="model1" default="$(find mobile_robot)/urdf/rover.urdf.xacro"/>
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model1)"/>
+
+    <!-- Publish robot state -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
+
+    <!-- GUI for controlling joint states -->
+    <node pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" name="joint_state_publisher_gui" />
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+    </include>
+
+    <arg name="rviz_config_file" default="$(find mobile_robot)/config/robot.rviz"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_config_file)" />
+
+    <node name="spawning_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model rover1 -param robot_description"/>
+
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+        <remap from="cloud_in" to="/kinect/depth/points"/>
+        <remap from="scan" to="/pctolaser/scan" />
+        <rosparam>
+            target_frame: kinect_link
+            transform_tolerance: 0.01
+            min_height: 0.0
+            max_height: 1.0
+
+            angle_min: -1.5708
+            angle_max: 1.5708
+            angle_increment: 0.0087
+            scan_time: 0.3333
+            range_min: 0.45
+            range_max: 4.0
+            use_inf: true
+
+            concurrency_level: 1
+        </rosparam>
+    </node>
+
+</launch>
