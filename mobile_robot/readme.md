@@ -1,5 +1,5 @@
 
-# Task Description:
+# Description:
 ## Autonomous Traversal of Four Wheeled Bot from one GPS coordinate to another GPS coordinate
 
 A single roscpp traversal node is used wherein using the gps data, distance to end destination is calculated using haversine formula. IMU data is used for calculating the current orientation and then I calculated the required heading to rotate to. A proportional controller is implemented based on the angular difference and linear distance to destination coordinates
@@ -83,7 +83,7 @@ Member Variables
 ## Link to YouTube Video for Navigation with Obstacle Avoidance Task:
 https://www.youtube.com/watch?v=acHFoFqlU_A&ab_channel=VyshnavDavanagere
 
-## PCL Task Video:
+## PCL Robot Traversal Video:
 https://www.youtube.com/watch?v=3ADccpJb30E&ab_channel=VyshnavDavanagere
 
 https://www.youtube.com/watch?v=gRmwRVPQdLI&ab_channel=VyshnavDavanagere
