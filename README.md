@@ -70,7 +70,7 @@ For the Navigation node:
         ROS message type: geometry_msgs/Twist
         Description: Velocity command for controlling the robot's movement.
         
-## Link to YouTube Video
+## Link to YouTube Videos
 
 https://www.youtube.com/watch?v=3ADccpJb30E&ab_channel=VyshnavDavanagere
 
