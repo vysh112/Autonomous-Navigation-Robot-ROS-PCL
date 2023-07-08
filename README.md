@@ -1,6 +1,6 @@
-# PCL TASK
+# PCL ROS Autonomous Robot
 
-## Task Description
+## Description
 
 Obstacle Avoidance using Pointcloud data from the kinect on the 4 wheel bot integrating it with GPS based Autonomous traversal. Obstacles visualisation on RViz.
 
